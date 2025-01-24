@@ -1,0 +1,107 @@
+senior design contributions for the week:
+look at sensors and take some notes
+
+
+
+what we need:
+temperature
+humidity
+light level
+ph
+these should be relatively easy to find sensors for
+
+for sun use an "ambient UV" sensor. they're super cheap. like this: https://www.adafruit.com/product/4831
+try to buy whole packages,ideally with coms built in.
+I dont want to have to fab custom pcbs and write drivers and whatnot for this shit.
+check adafruit, they ususally have stuff like that
+
+though if we need to do it once we may as well do it for everything I guess?
+would make it prettier but SO MUCH MORE WORK and we are't super limited on space here.
+check for different package options for maximum prettyness
+can solder everything to one big board if you want it to be better or whatever. those are later problems.
+
+macronutrients:
+nitrogen
+phosphorus
+potassium
+calcium*
+magnesium*
+sulfur*
+
+*might not be able to find. looking like they're a bit more involved to test for and we can't exactly replicate lab conditions here.
+no spectroscopy
+
+Nitrogen, phosphorus, potassium detections loks fairly straightforward. can get that ability in a single package
+
+calcium seems pretty complex, Im not seeing standalone sensors for it, 
+from skipping a research paper they used an array of a bunch of different sensors to get data. Would like to avoid that.
+paper: https://www.semanticscholar.org/paper/Soil-calcium-and-pH-monitoring-sensor-system.-Lemos-Nogueira/d5fa68c17f996e30b84ee23f741f31387157925d
+
+magnesium seems to be similar, need to do labratory tests, no sensors easily available
+
+same with sulfur. Some of these are suggesting spectroscopy which is far beyond what we can do 
+
+
+need to detect all of these somehow, 
+really REALLY hoping we dont need to make a fucking robot to 
+physically take samples and mix solutions and whatnot
+
+https://www.amazon.com/gp/product/B08MXXSP59/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B08MXXSP59&linkCode=as2&tag=shophow2elect-20&linkId=791f967ac266cf14f2c69f3f299278b4
+soil sensor, ~$100, nitrogen, phosphorus, potassium, PH
+
+thermometer is easy, might want to use several. get air and soil temps
+maybe at a few different depths?
+
+https://www.youtube.com/watch?v=nh5x_H_lIko
+this example basically stitches abunch of 3rd party sensors together with modbus
+modbus is probably a good option to use. can just get a pi hat for modbus and tons of stuff supports is
+Id like to keep everything to a single protocol for simplicity sake. CAN would work too but I've never worked with that
+either would let us work with rs485 for communications, which would be another win in simplicity.
+
+for Pi we will need to make a custom case, weatherproof, suitable for outdoors use at bare minimum.
+
+I really hate reading research papers, especially in fields Im not in.
+
+comms:
+it already has built in wifi module, can get modbus hat or whatever protocol we decide on
+processing all the input might be a pain but we should only need to ensure our data is accurate locally 
+and do heavy lifting analysis stuff on the remote server
+
+
+******************************
+I think getting accurate data from the sensors is going to be one of the biggest challenges with this. 
+I've never attempted to coordinate this many sensors, 
+and even with only a couple there are always major problems with accuracy and consistency.
+Need to make sure sensors are decent quality
+******************************
+
+
+Do we try to make a custom board for this? while it would be fun Id like to avoid custom PCB fab just casue getting everything to behave 
+in a fully custom environment sounds like a nightmare. Lets use premade packages as much as possible, not try to make custom shit.
+
+Im picturing something like a little box we can strap to the side of a pot, plug it into a wall, should only need wifi for external coms,
+with several probes on cables we can run into the soil and arrange however we like. 
+SUpportive sensors like temp, sunlight, humidity, etc can all be built into the main casing along with the main board
+
+
+for software we might want to incorperate a location, using USDA hardiness zones to determine what plants can grow outdoors where
+all this would need to be done throught the phone app, which would probably be a huge pain. we would also need some kind of plant database 
+for track what can be grown where. Or if this is indoors we dont have to care. Only worry about local environment sensors.
+
+So break sensors into two packages: ambient local environment and in-soil
+ambient on the main chassis, soil on cable leads
+all of this needs to be weather proofed.
+
+ambient:
+sunlight
+air humidity
+temperature
+
+soil:
+temperature
+moisture
+ph
+nutrients
+
+
+might want several of some to ensure accuracy or take averages or whatnot
